@@ -11,12 +11,17 @@ http://www.mca.gov.cn/article/sj/xzqh/
 
 # mysql 建表和查询语句
 建表
+
   create table version (id int primary key auto_increment, url varchar(200) not null,check_time datetime default now());
+  
   create table province (id int primary key auto_increment,code varchar(20) not null,title varchar(32) not null);
+  
   create table city (id int primary key auto_increment,code varchar(20) not null,title varchar(32) not null,pro_code varchar(20));
+  
   create table county (id int primary key auto_increment,code varchar(20) not null,title varchar(32) not null,ci_code varchar(20),pro_code varchar(20));
   
 连表查询
+
   select county.title,city.title,province.title from county inner join city on city.code=county.ci_code inner join province on province.code=city.pro_code;
   
   
