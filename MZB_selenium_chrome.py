@@ -63,13 +63,6 @@ class MZBSpider(object):
             return info_lists
 
     def get_data(self):
-        # self.__browser.get(url=self.__url)
-        # time.sleep(1)
-        # self.__browser.find_element_by_partial_link_text("县以上行政区划代码").click()
-        # time.sleep(3)
-        # handles = self.__browser.window_handles
-        # self.__browser.switch_to.window(handles[1])
-        # info_lists = self.__browser.find_elements_by_xpath('//tbody/tr[@height="19"]')
         info_lists = self.check_page()
         if info_lists is None:
             return
@@ -124,11 +117,6 @@ class MZBSpider(object):
                 self.cursor.execute(sql_line)
                 self.db.commit()
             # 清空表之后保存最新行政区代码到对应表中
-            # for province in data[0]:
-            #     code = province[0]
-            #     title = province[1]
-            #     sql_line = 'insert into province (code,title) values ("%s","%s")' % (code, title)
-            #     self.cursor.execute(sql_line)
             sql_line_pro = 'insert into province (code,title) values (%s,%s)'
             sql_line_ci = 'insert into city (code,title,pro_code) values (%s,%s,%s)'
             sql_line_co = 'insert into county (code,title,ci_code,pro_code) values (%s,%s,%s,%s)'
@@ -136,21 +124,6 @@ class MZBSpider(object):
             self.cursor.executemany(sql_line_pro, data[0])
             self.cursor.executemany(sql_line_ci, data[1])
             self.cursor.executemany(sql_line_co, data[2])
-            # for city in data[1]:
-            #     code = city[0]
-            #     title = city[1]
-            #     pro_code = city[2]  # pre_code表示市对应的省或者直辖市code
-            #     sql_line = 'insert into city (code,title,pro_code) values ("%s","%s","%s")' % (code, title, pro_code)
-            #     self.cursor.execute(sql_line)
-            # self.db.commit()
-            # for county in data[2]:
-            #     code = county[0]
-            #     title = county[1]
-            #     ci_code = county[2]  # ci_code表示市对应的市区code
-            #     pro_code = county[3]  # pro_code表示市对应的省或者直辖市code
-            #     sql_line = 'insert into county (code,title,ci_code,pro_code) values ("%s","%s","%s","%s")' % (
-            #         code, title, ci_code, pro_code)
-            #     self.cursor.execute(sql_line)
             self.db.commit()
             self.cursor.close()
             # self.db.close()
